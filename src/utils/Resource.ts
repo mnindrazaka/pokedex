@@ -1,9 +1,12 @@
-export type Suspenify<T> = { read: () => T };
-type PromiseStatus = "pending" | "success" | "error";
+export type Resource<Result> = { read: () => Result };
 
-export default function suspenify<T>(promise: Promise<T>): Suspenify<T> {
-  let status: PromiseStatus = "pending";
-  let result: T;
+type ResourceStatus = "pending" | "success" | "error";
+
+export function createResource<Result>(
+  promise: Promise<Result>
+): Resource<Result> {
+  let status: ResourceStatus = "pending";
+  let result: Result;
   let error: Error;
 
   const suspender = promise

@@ -1,11 +1,10 @@
-import { Pokemon } from "../../model/Pokemon";
-import { Suspenify } from "../../utils/suspenify";
+import { PokemonDetailResource } from "../../model/Pokemon";
 
 export type PokemonDetailProps = {
-  pokemonSuspense: Suspenify<Pokemon>;
+  resource: PokemonDetailResource;
 };
 
 export default function PokemonDetail(props: PokemonDetailProps) {
-  const pokemon = props.pokemonSuspense.read();
+  const pokemon = props.resource.read();
   return <p>{pokemon.name}</p>;
 }

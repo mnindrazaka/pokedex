@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
-import { Pokemon } from "../../model/Pokemon";
-import { Suspenify } from "../../utils/suspenify";
+import { PokemonListResource } from "../../model/Pokemon";
 
 export type PokemonListProps = {
-  pokemonSuspense: Suspenify<Pokemon[]>;
+  resource: PokemonListResource;
 };
 
 export default function PokemonList(props: PokemonListProps) {
-  const pokemons = props.pokemonSuspense.read();
+  const pokemons = props.resource.read();
   return (
     <ol>
       {pokemons.map((pokemon) => (
