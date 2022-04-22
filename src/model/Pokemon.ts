@@ -5,14 +5,15 @@ export type Pokemon = {
   url: string;
 };
 
-export const getPokemons = fetch(
-  "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
-)
-  .then((res) => res.json())
-  .then((res) => res.results);
-
-export const getPokemonsSuspense = suspenify<Pokemon[]>(
+export const getPokemons = () =>
   fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0")
     .then((res) => res.json())
-    .then((res) => res.results)
-);
+    .then((res) => res.results);
+
+export const getPokemonsSuspense = () => suspenify<Pokemon[]>(getPokemons());
+
+export const getPokemon = (slug: string) =>
+  fetch(`https://pokeapi.co/api/v2/pokemon/${slug}`).then((res) => res.json());
+
+export const getPokemonSuspense = (slug: string) =>
+  suspenify<Pokemon>(getPokemon(slug));

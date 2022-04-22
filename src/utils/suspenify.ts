@@ -1,9 +1,7 @@
-type SuspenifyReturnType<T> = { read: () => T };
+export type Suspenify<T> = { read: () => T };
 type PromiseStatus = "pending" | "success" | "error";
 
-export default function suspenify<T>(
-  promise: Promise<T>
-): SuspenifyReturnType<T> {
+export default function suspenify<T>(promise: Promise<T>): Suspenify<T> {
   let status: PromiseStatus = "pending";
   let result: T;
   let error: Error;
