@@ -1,7 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import ErrorBoundary from "../../components/ErrorBoundary";
-import { getPokemonDetailResource } from "../../model/Pokemon";
+import { pokemonsApi } from "../../model/Pokemon";
+import { createResource } from "../../utils/Resource";
 import PokemonDetail, {
   PokemonDetailError,
   PokemonDetailPlaceholder,
@@ -13,7 +14,9 @@ export type PokemonDetailPageParams = {
 
 export default function PokemonDetailPage() {
   const params = useParams<PokemonDetailPageParams>();
-  const pokemonDetailResource = getPokemonDetailResource(params.slug ?? "");
+  const pokemonDetailResource = createResource(
+    pokemonsApi.getPokemonDetail({ slug: params.slug ?? "" })
+  );
   return (
     <ErrorBoundary fallback={<PokemonDetailError />}>
       <React.Suspense fallback={<PokemonDetailPlaceholder />}>

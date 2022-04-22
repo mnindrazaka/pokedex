@@ -1,4 +1,5 @@
-import { PokemonDetailResource } from "../../model/Pokemon";
+import { Resource } from "../../utils/Resource";
+import { Pokemon } from "../../__generated__/api";
 
 export const PokemonDetailError = () => {
   return <p>Fetching pokemon detail error</p>;
@@ -9,7 +10,7 @@ export const PokemonDetailPlaceholder = () => {
 };
 
 export type PokemonDetailProps = {
-  resource: PokemonDetailResource;
+  resource: Resource<Pokemon>;
 };
 
 export default function PokemonDetail(props: PokemonDetailProps) {

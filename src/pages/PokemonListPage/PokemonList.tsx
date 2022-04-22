@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { PokemonListResource } from "../../model/Pokemon";
+import { Resource } from "../../utils/Resource";
+import { Pokemon } from "../../__generated__/api";
 
 export const PokemonListError = () => {
   return <p>Fetching pokemon list error</p>;
@@ -10,7 +11,7 @@ export const PokemonListPlaceholder = () => {
 };
 
 export type PokemonListProps = {
-  resource: PokemonListResource;
+  resource: Resource<Pokemon[]>;
 };
 
 export default function PokemonList(props: PokemonListProps) {

@@ -1,0 +1,70 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: POKEDEX API
+  description: See https://pokeapi.co/
+paths:
+  /pokemon:
+    get:
+      description: Returns list of pokemon
+      tags: ["Pokemons"]
+      operationId: "getPokemonList"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/PokemonListResponse"
+  /pokemon/{slug}:
+    get:
+      description: Returns pokemon detail
+      tags: ["Pokemons"]
+      operationId: "getPokemonDetail"
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          description: The slug name of the pokemon
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/Pokemon"
+components:
+  schemas:
+    PokemonListResponse:
+      type: "object"
+      required:
+        - "results"
+      properties:
+        results:
+          $ref: "#/components/PokemonList"
+    PokemonList:
+      type: "array"
+      items:
+        $ref: "#/components/Pokemon"
+    Pokemon:
+      type: "object"
+      required:
+        - "id"
+        - "adult"
+        - "genre_ids"
+        - "original_language"
+        - "original_title"
+        - "overview"
+        - "popularity"
+        - "release_date"
+        - "title"
+        - "video"
+        - "vote_average"
+        - "vote_count"
+      properties:
+        name:
+          type: "string"
+        url:
+          type: "string"

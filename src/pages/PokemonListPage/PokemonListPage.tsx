@@ -1,13 +1,16 @@
 import React from "react";
 import ErrorBoundary from "../../components/ErrorBoundary";
-import { getPokemonListResource } from "../../model/Pokemon";
+import { pokemonsApi } from "../../model/Pokemon";
+import { createResource } from "../../utils/Resource";
 import PokemonList, {
   PokemonListError,
   PokemonListPlaceholder,
 } from "./PokemonList";
 
 export default function PokemonListPage() {
-  const pokemonListResource = getPokemonListResource();
+  const pokemonListResource = createResource(
+    pokemonsApi.getPokemonList().then((res) => res.results)
+  );
   return (
     <ErrorBoundary fallback={<PokemonListError />}>
       <React.Suspense fallback={<PokemonListPlaceholder />}>
