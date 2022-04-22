@@ -5,24 +5,34 @@ type Pokemon = {
   url: string;
 };
 
-let status: "success" | "pending" = "pending";
-let results: Pokemon[] = [];
+function suspenify<T>(promise: Promise<T>): { read: () => T } {
+  let status: "success" | "pending" = "pending";
+  let result: T;
 
-let promise = fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0")
-  .then((res) => res.json())
-  .then((res) => {
+  let suspender = promise.then((res) => {
     status = "success";
-    results = res.results;
+    result = res;
   });
 
-function PokemonList() {
-  if (status === "pending") {
-    throw promise;
-  }
+  return {
+    read: () => {
+      if (status === "pending") throw suspender;
+      return result;
+    },
+  };
+}
 
+const getPokemons = suspenify<Pokemon[]>(
+  fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0")
+    .then((res) => res.json())
+    .then((res) => res.results)
+);
+
+function PokemonList() {
+  const pokemons = getPokemons.read();
   return (
     <ol>
-      {results.map((pokemon) => (
+      {pokemons.map((pokemon) => (
         <li key={pokemon.url}>{pokemon.name}</li>
       ))}
     </ol>
@@ -32,7 +42,7 @@ function PokemonList() {
 function App() {
   return (
     <div>
-      <React.Suspense fallback="Loading...">
+      <React.Suspense fallback={<p>loading...</p>}>
         <PokemonList />
       </React.Suspense>
     </div>
