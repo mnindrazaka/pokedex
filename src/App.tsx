@@ -1,14 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import PokemonDetailPageLazy from "./pages/PokemonDetailPage/PokemonDetailPageLazy";
-import PokemonListPageLazy from "./pages/PokemonListPage/PokemonListPageLazy";
+import PokemonDetailPage from "./pages/PokemonDetailPage";
+import PokemonListPage from "./pages/PokemonListPage";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<PokemonListPageLazy />} />
-        <Route path="/pokemon" element={<PokemonListPageLazy />} />
-        <Route path="/pokemon/:slug" element={<PokemonDetailPageLazy />} />
+        <Route path="/" element={<PokemonListPage />} />
+        <Route path="/pokemon" element={<PokemonListPage />} />
+        <Route path="/pokemon/:slug" element={<PokemonDetailPage />} />
       </Routes>
     </BrowserRouter>
   );

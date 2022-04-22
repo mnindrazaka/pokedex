@@ -1,1 +1,1 @@
-export { default } from "./PokemonDetailPage";
+export { default } from "./PokemonDetailPageLazy";

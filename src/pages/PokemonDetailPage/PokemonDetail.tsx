@@ -1,5 +1,13 @@
 import { PokemonDetailResource } from "../../model/Pokemon";
 
+export const PokemonDetailError = () => {
+  return <p>Fetching pokemon detail error</p>;
+};
+
+export const PokemonDetailPlaceholder = () => {
+  return <p>Loading...</p>;
+};
+
 export type PokemonDetailProps = {
   resource: PokemonDetailResource;
 };

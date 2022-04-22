@@ -1,6 +1,14 @@
 import { Link } from "react-router-dom";
 import { PokemonListResource } from "../../model/Pokemon";
 
+export const PokemonListError = () => {
+  return <p>Fetching pokemon list error</p>;
+};
+
+export const PokemonListPlaceholder = () => {
+  return <p>Loading...</p>;
+};
+
 export type PokemonListProps = {
   resource: PokemonListResource;
 };
