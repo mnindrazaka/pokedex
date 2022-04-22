@@ -1,22 +1,56 @@
 import React from "react";
 
+type ErrorBoundaryProps = {
+  fallback: React.ReactNode;
+  children: React.ReactNode;
+};
+
+type ErrorBoundaryState = {
+  hasError: boolean;
+};
+
+class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  render() {
+    return this.state.hasError ? this.props.fallback : this.props.children;
+  }
+}
+
 type Pokemon = {
   name: string;
   url: string;
 };
 
 function suspenify<T>(promise: Promise<T>): { read: () => T } {
-  let status: "success" | "pending" = "pending";
+  let status: "pending" | "success" | "error" = "pending";
   let result: T;
+  let error: Error;
 
-  let suspender = promise.then((res) => {
-    status = "success";
-    result = res;
-  });
+  let suspender = promise
+    .then((res) => {
+      status = "success";
+      result = res;
+    })
+    .catch((e) => {
+      status = "error";
+      error = e;
+    });
 
   return {
     read: () => {
       if (status === "pending") throw suspender;
+      if (status === "error") throw error;
       return result;
     },
   };
@@ -42,9 +76,11 @@ function PokemonList() {
 function App() {
   return (
     <div>
-      <React.Suspense fallback={<p>loading...</p>}>
-        <PokemonList />
-      </React.Suspense>
+      <ErrorBoundary fallback={<p>something went wrong</p>}>
+        <React.Suspense fallback={<p>loading...</p>}>
+          <PokemonList />
+        </React.Suspense>
+      </ErrorBoundary>
     </div>
   );
 }
